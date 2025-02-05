@@ -1,0 +1,19 @@
+#include <vector>
+
+using namespace std;
+
+// 기울기 비교 함수
+bool isParallel(pair<int, int> p1, pair<int, int> p2, pair<int, int> p3, pair<int, int> p4) {
+    // 기울기: (y2 - y1) / (x2 - x1)
+    // 두 선분의 기울기가 같다면 평행
+    return (p2.second - p1.second) * (p4.first - p3.first) == (p4.second - p3.second) * (p2.first - p1.first);
+}
+
+int solution(vector<vector<int>> dots) {
+    // 4개의 점을 이용해 6가지 선분 쌍을 비교
+    if (isParallel({dots[0][0], dots[0][1]}, {dots[1][0], dots[1][1]}, {dots[2][0], dots[2][1]}, {dots[3][0], dots[3][1]})) return 1;
+    if (isParallel({dots[0][0], dots[0][1]}, {dots[2][0], dots[2][1]}, {dots[1][0], dots[1][1]}, {dots[3][0], dots[3][1]})) return 1;
+    if (isParallel({dots[0][0], dots[0][1]}, {dots[3][0], dots[3][1]}, {dots[1][0], dots[1][1]}, {dots[2][0], dots[2][1]})) return 1;
+    
+    return 0;
+}

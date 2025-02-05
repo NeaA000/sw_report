@@ -1,0 +1,18 @@
+#include <string>
+#include <vector>
+
+using namespace std;
+
+int solution(int n, int k) {
+    // 양꼬치 가격: 12,000원, 음료 가격: 2,000원
+    int lamb_price = 12000;
+    int drink_price = 2000;
+
+    // 서비스 음료 개수: 10인분당 1개
+    int free_drinks = n / 10;
+
+    // 총 가격 계산
+    int total_price = (n * lamb_price) + ((k - free_drinks) * drink_price);
+
+    return total_price;
+}

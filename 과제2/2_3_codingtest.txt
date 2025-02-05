@@ -1,0 +1,51 @@
+#include <string>
+#include <vector>
+#include <map>
+#include <algorithm> // min()을 사용하기 위해 추가
+
+using namespace std;
+
+int solution(int a, int b, int c, int d) {
+    map<int, int> freq;
+    freq[a]++; freq[b]++; freq[c]++; freq[d]++;  // 각 숫자의 빈도수를 저장
+
+    if (freq.size() == 1) {
+        // 모든 숫자가 같은 경우 (예: 2, 2, 2, 2)
+        return 1111 * a;
+    } else if (freq.size() == 2) {
+        auto it = freq.begin();
+        int p = it->first, p_count = it->second;
+        it++;
+        int q = it->first, q_count = it->second;
+
+        // p가 3개 나오고, q가 1개 나오면 p, q를 바꿈
+        if (p_count == 3) swap(p, q), swap(p_count, q_count);
+
+        if (p_count == 2 && q_count == 2) {
+            // 두 개씩 같은 경우 (예: 3, 3, 5, 5) → (3+5) * |3-5| = 16
+            return (p + q) * abs(p - q);
+        } else {
+            // 하나만 다른 경우 (예: 3, 3, 3, 5) → (10*3 + 5)^2 = 1225
+            return (10 * q + p) * (10 * q + p);
+        }
+    } else if (freq.size() == 3) {
+        // 숫자 중에서 두 개가 같은 경우를 찾음
+        for (auto& it : freq) {
+            if (it.second == 2) {
+                int p = it.first;
+                int result = 1;
+                for (auto& it2 : freq) {
+                    if (it2.first != p) {
+                        result *= it2.first;
+                    }
+                }
+                return result;
+            }
+        }
+    } else {
+        // 모든 숫자가 다 다른 경우 → 가장 작은 값 반환
+        return min({a, b, c, d});  // `algorithm` 헤더가 필요함
+    }
+
+    return 0;
+}
